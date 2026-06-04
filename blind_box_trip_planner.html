@@ -1,0 +1,1499 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Command Escapes: Space Ranger Cockpit Edition</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        toy: {
+                            blue: '#4a90e2',
+                            sky: '#7ec0ee',
+                            buzzGreen: '#39FF14', // Neon laser green
+                            buzzPurple: '#9B51E0', // Space ranger royal purple
+                            buzzSilver: '#E0E0E0', // Spaceship hull plate silver
+                            buzzDarkGray: '#1C1E24', // Dashboard metallic gray
+                            pizzaRed: '#dd2c00',
+                            alienGreen: '#a6ff00'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Andy's Room Wallpaper Backdrop */
+        .andy-background {
+            background: linear-gradient(to bottom, #7ec0ee 0%, #4a90e2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* */
+        /* Cute CSS Animations for Stickers */
+        @keyframes cuteFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+        @keyframes cuteWobble {
+            0%, 100% { transform: rotate(-6deg) translateY(0); }
+            50% { transform: rotate(6deg) translateY(-4px); }
+        }
+        @keyframes flamePulse {
+            0%, 100% { transform: scaleY(1); opacity: 0.8; }
+            50% { transform: scaleY(1.35); opacity: 1; filter: drop-shadow(0 0 6px #ff4444); }
+        }
+        .sticker-float {
+            animation: cuteFloat 4s ease-in-out infinite;
+        }
+        .sticker-wobble {
+            animation: cuteWobble 3.5s ease-in-out infinite;
+        }
+        .flame-glow {
+            animation: flamePulse 0.25s ease-in-out infinite;
+            transform-origin: top center;
+        }
+
+        /* Andy's Clouds */
+        .cloud {
+            background: #ffffff;
+            position: absolute;
+            border-radius: 100px;
+            pointer-events: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            animation: floatCloud var(--speed, 40s) linear infinite;
+            z-index: 1;
+        }
+        .cloud::before, .cloud::after {
+            content: '';
+            background: #ffffff;
+            position: absolute;
+            border-radius: 50%;
+        }
+        .cloud-1 { width: 150px; height: 60px; top: 12%; left: -180px; --speed: 50s; }
+        .cloud-1::before { width: 80px; height: 80px; top: -40px; left: 20px; }
+        .cloud-1::after { width: 60px; height: 60px; top: -25px; right: 20px; }
+
+        .cloud-2 { width: 220px; height: 80px; top: 38%; left: -250px; --speed: 38s; animation-delay: -10s; }
+        .cloud-2::before { width: 110px; height: 110px; top: -55px; left: 30px; }
+        .cloud-2::after { width: 80px; height: 80px; top: -35px; right: 30px; }
+
+        @keyframes floatCloud {
+            0% { transform: translateX(-10%); }
+            100% { transform: translateX(120vw); }
+        }
+
+        /* Buzz Spaceship Cockpit Shield Layer */
+        .cockpit-mainframe {
+            background: var(--tw-color-toy-buzzDarkGray, #181A20);
+            border: 8px solid #E0E0E0;
+            border-bottom: 20px solid #E0E0E0;
+            border-radius: 40px;
+            box-shadow: 
+                0 0 0 4px #9B51E0,
+                0 25px 60px -10px rgba(0,0,0,0.8),
+                inset 0 0 30px rgba(0,0,0,0.9);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Panel rivets simulation */
+        .rivet {
+            width: 8px;
+            height: 8px;
+            background: #888;
+            border-radius: 50%;
+            box-shadow: inset 1px 1px 2px #fff, 1px 1px 1px #000;
+            position: absolute;
+        }
+
+        /* Warning stripes pattern for borders */
+        .hazard-stripes {
+            background: repeating-linear-gradient(
+                -45deg,
+                #9B51E0,
+                #9B51E0 10px,
+                #39FF14 10px,
+                #39FF14 20px
+            );
+            height: 8px;
+            width: 100%;
+        }
+
+        /* Buzz style highly tactile plastic buttons (Cherry switches) */
+        .btn-buzz {
+            background: #ff4444;
+            border: 3px solid #E0E0E0;
+            border-bottom-width: 8px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+            transition: all 0.1s ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .btn-buzz:active {
+            transform: translateY(4px);
+            border-bottom-width: 3px;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.4);
+        }
+        .btn-buzz-green { background: #39FF14; color: #111; border-color: #fff; }
+        .btn-buzz-purple { background: #9B51E0; color: #fff; }
+        .btn-buzz-blue { background: #00E5FF; color: #111; }
+
+        /* Scanning grid overlay for cockpit radar look */
+        .radar-grid {
+            background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%), linear-gradient(90deg, rgba(57,255,20,0.06), rgba(0,0,0,0), rgba(57,255,20,0.06));
+            background-size: 100% 4px, 6px 100%;
+        }
+
+        /* Linear charging beam for chosen claw destination capsule */
+        .glowing-vector-beam {
+            background: linear-gradient(to top, rgba(57, 255, 20, 0.9) 0%, rgba(155, 81, 224, 0.4) 60%, transparent 100%);
+            filter: drop-shadow(0 0 25px rgba(57, 255, 20, 0.8));
+            animation: beamPulse 0.6s infinite alternate;
+        }
+
+        /* LED Blink Animation */
+        .blinking-led {
+            animation: ledBlink 1s infinite alternate;
+        }
+        @keyframes ledBlink {
+            0% { opacity: 0.3; filter: brightness(0.6); }
+            100% { opacity: 1; filter: brightness(1.2) drop-shadow(0 0 8px currentColor); }
+        }
+
+        /* Custom scrollbar for chat */
+        .chat-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #9B51E0;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="andy-background text-white min-h-screen flex flex-col justify-between font-sans">
+
+    <!-- Andy's Clouds Background Layers -->
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+
+    <!-- Header Navigation -->
+    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center z-10 relative">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('welcome')">
+            <div class="w-12 h-12 bg-toy-buzzPurple border-4 border-toy-buzzSilver rounded-full flex items-center justify-center shadow-lg transform hover:rotate-12 transition">
+                <svg class="w-7 h-7 text-toy-buzzGreen" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 22h4l6-6 6 6h4L12 2zm0 3.6l4.4 8.8-4.4-4.4-4.4 4.4L12 5.6z"/>
+                </svg>
+            </div>
+            <div>
+                <!-- -->
+                <span class="font-orbitron tracking-widest text-xl font-black text-white block">BUZZ-22K</span>
+                <span class="text-[10px] uppercase tracking-[0.25em] text-toy-buzzGreen font-bold block">宇宙行程探測儀</span>
+            </div>
+        </div>
+
+        <div class="px-5 py-2 border-2 border-toy-buzzGreen bg-toy-deepNavy/85 text-xs font-orbitron font-bold tracking-widest rounded-full text-toy-buzzGreen flex items-center gap-2 shadow-md">
+            <span class="w-2.5 h-2.5 rounded-full bg-toy-buzzGreen blinking-led text-toy-buzzGreen"></span>
+            SECTOR: ACTIVE-22K
+        </div>
+    </header>
+
+    <!-- MAIN INTERACTIVE SPACE COCKPIT -->
+    <main class="flex-grow flex items-center justify-center px-4 md:px-6 py-4 z-10 relative w-full max-w-7xl mx-auto">
+        
+        <div class="w-full cockpit-mainframe overflow-hidden">
+            <!-- Simulated Panel Rivets -->
+            <div class="rivet top-4 left-4"></div>
+            <div class="rivet top-4 right-4"></div>
+            <div class="rivet bottom-4 left-4"></div>
+            <div class="rivet bottom-4 right-4"></div>
+            
+            <!-- Warning strip at the very top of cockpit console -->
+            <div class="hazard-stripes"></div>
+
+            <!-- Dashboard Subheader Info -->
+            <div class="px-6 py-3 border-b border-white/10 bg-black/40 flex justify-between items-center text-xs font-orbitron tracking-wider">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-red-500 blinking-led text-red-500"></span>
+                    <span>COCKPIT TELEMETRY MODEL: BUZZ-22K / ITINERARY-DETECTOR</span>
+                </div>
+                <div class="text-toy-buzzGreen">FUEL CREDITS: HKD 22,000 / MAX CAPACITY</div>
+            </div>
+
+            <!-- Viewport Screen Contents -->
+            <div class="p-6 md:p-10 radar-grid min-h-[500px] flex flex-col justify-center">
+
+                <!-- ================= SCREEN 1: HERO / LAUNCH DECK ================= -->
+                <!-- -->
+                <section id="screen-welcome" class="w-full text-center space-y-8 py-6">
+                    <div class="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12">
+                        
+                        <!-- Left Animated Sticker: Pizza Planet Rocket -->
+                        <div class="sticker-float hidden lg:flex flex-col items-center justify-center w-28 h-28 bg-black/30 border-2 border-toy-buzzPurple rounded-full p-3 shadow-lg relative hover:scale-110 transition duration-300">
+                            <svg class="w-16 h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M32 6L42 22V50H22V22L32 6Z" fill="#ff4444" stroke="#ffffff" stroke-width="2"/>
+                                <path d="M32 6L22 22H42L32 6Z" fill="#ffffff"/>
+                                <circle cx="32" cy="32" r="6" fill="#00E5FF" stroke="#ffffff" stroke-width="2"/>
+                                <!-- Rocket Fins -->
+                                <path d="M22 40L14 48V50H22V40Z" fill="#9B51E0" stroke="#ffffff" stroke-width="2"/>
+                                <path d="M42 40L50 48V50H42V40Z" fill="#9B51E0" stroke="#ffffff" stroke-width="2"/>
+                                <!-- Animated Booster Flame -->
+                                <path class="flame-glow" d="M32 50L36 58L32 62L28 58L32 50Z" fill="#ff9100"/>
+                                <path class="flame-glow" d="M32 50L34 55L32 58L30 55L32 50Z" fill="#ffea00"/>
+                            </svg>
+                            <span class="text-[8px] font-orbitron text-toy-buzzSilver mt-1 uppercase tracking-wider">PIZZA PLANET</span>
+                        </div>
+
+                        <!-- Center Title & Body -->
+                        <div class="space-y-4 max-w-xl">
+                            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-toy-buzzGreen/40 bg-toy-buzzGreen/10 text-toy-buzzGreen text-xs font-orbitron uppercase tracking-widest animate-pulse">
+                                🚨 STARCOMMAND ESCAPES ACTIVATED
+                            </span>
+                            
+                            <h1 class="font-orbitron text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-wider">
+                                TO INFINITY,<br>
+                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-toy-buzzGreen via-white to-toy-buzzGreen">
+                                    AND YOUR NEXT ADVENTURE.
+                                </span>
+                            </h1>
+                            
+                            <p class="text-base md:text-lg text-toy-buzzSilver leading-relaxed font-light">
+                                「爪子……它移動了！」<br>
+                                專為妳與老公定制的星際之旅。撥動巴斯光年的飛船控制板，啟動 Pizza Planet 神祕鋼爪，解鎖妳們的 8 至 9 日非主流蜜月假期。
+                            </p>
+                        </div>
+
+                        <!-- Right Animated Sticker: Cute Wobbling Alien -->
+                        <div class="sticker-wobble hidden lg:flex flex-col items-center justify-center w-28 h-28 bg-black/30 border-2 border-toy-buzzGreen rounded-full p-3 shadow-lg relative hover:scale-110 transition duration-300">
+                            <svg class="w-16 h-16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Suit -->
+                                <rect x="20" y="38" width="24" height="16" rx="8" fill="#5044ff" stroke="#ffffff" stroke-width="2"/>
+                                <!-- Alien Head -->
+                                <ellipse cx="32" cy="28" rx="16" ry="11" fill="#a6ff00" stroke="#5d9e00" stroke-width="2"/>
+                                <!-- Antenna -->
+                                <line x1="32" y1="17" x2="32" y2="10" stroke="#5d9e00" stroke-width="2"/>
+                                <circle cx="32" cy="8" r="3" fill="#ffea00" stroke="#5d9e00" stroke-width="1.5"/>
+                                <!-- Eyes -->
+                                <circle cx="24" cy="26" r="3.5" fill="white"/> <circle cx="24" cy="26" r="1.5" fill="black"/>
+                                <circle cx="32" cy="24" r="4.5" fill="white"/> <circle cx="32" cy="24" r="2" fill="black"/>
+                                <circle cx="40" cy="26" r="3.5" fill="white"/> <circle cx="40" cy="26" r="1.5" fill="black"/>
+                                <!-- Smile -->
+                                <path d="M26 33C28 36 36 36 38 33" stroke="#5d9e00" stroke-width="2" stroke-linecap="round"/>
+                                <!-- Badge -->
+                                <circle cx="32" cy="46" r="3" fill="#ff4444"/>
+                            </svg>
+                            <span class="text-[8px] font-orbitron text-toy-buzzGreen mt-1 uppercase tracking-wider animate-pulse">Ooooh!</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Physical interactive controls -->
+                    <div class="flex flex-col sm:flex-row justify-center gap-6 pt-6">
+                        <button onclick="playSFX('launch'); navigateTo('screen-quiz')" class="btn-starcommand btn-buzz btn-buzz-green px-10 py-5 rounded-2xl text-lg font-black tracking-widest text-black">
+                            啟動星際校準儀
+                        </button>
+                        <button onclick="playSFX('click'); toggleAlienSpeechBubble()" class="btn-starcommand btn-buzz btn-buzz-purple px-8 py-5 rounded-2xl text-base font-semibold tracking-wider text-white">
+                            開啟三眼仔對話
+                        </button>
+                    </div>
+                </section>
+
+                <!-- ================= SCREEN 2: COMMAND CENTER (QUIZ) ================= -->
+                <section id="screen-quiz" class="hidden w-full space-y-8">
+                    <div class="text-center space-y-2">
+                        <div class="text-xs font-orbitron uppercase tracking-[0.3em] text-toy-buzzGreen">COSMIC NAVIGATION CALIBRATION</div>
+                        <h2 class="text-2xl md:text-3xl font-orbitron font-bold text-white">導航星軌校準儀</h2>
+                        <p class="text-xs text-toy-buzzSilver/70">請按航線需求點擊以下儀表面板。系統會精密計算出最契合你們身心感受的星區。</p>
+                    </div>
+
+                    <!-- Tactile Stage Indicator lights -->
+                    <div class="flex items-center justify-between gap-2 bg-black/50 p-4 rounded-2xl border border-toy-buzzPurple/40">
+                        <div class="text-[10px] font-orbitron text-toy-buzzSilver font-bold uppercase tracking-widest">系統校準進度:</div>
+                        <div class="flex gap-3" id="progress-indicators">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Question Area -->
+                    <div id="quiz-question-container" class="min-h-[250px] flex flex-col justify-between">
+                        <!-- Instantiated by JS -->
+                    </div>
+
+                    <!-- Bottom Nav Panel -->
+                    <div class="flex justify-between items-center pt-6 mt-6 border-t border-white/10">
+                        <button id="quiz-btn-prev" onclick="playSFX('click'); handleQuizPrev()" class="btn-starcommand btn-buzz btn-buzz-purple px-6 py-3 rounded-xl text-sm font-bold text-white">
+                            上一步
+                        </button>
+                        <button id="quiz-btn-next" onclick="playSFX('click'); handleQuizNext()" class="btn-starcommand btn-buzz btn-buzz-green px-8 py-3 rounded-xl text-sm font-bold text-black" disabled>
+                            下一步
+                        </button>
+                    </div>
+                </section>
+
+                <!-- ================= SCREEN 3: ARCADE LOTTERY CLAW ================= -->
+                <section id="screen-arcade" class="hidden w-full max-w-lg mx-auto space-y-6">
+                    <div class="text-center space-y-1">
+                        <div class="text-[10px] font-orbitron uppercase tracking-[0.3em] text-toy-buzzGreen">PIZZA PLANET CLAW CALIBRATOR</div>
+                        <h2 class="text-2xl font-orbitron font-extrabold text-white tracking-widest">THE CLAW CHAMBER</h2>
+                        <p class="text-xs text-toy-buzzSilver/70">「爪子……是我們的主人！」發射鋼爪，抓取屬於妳與老公的神秘星盒！</p>
+                    </div>
+
+                    <!-- Machine glass viewport layout -->
+                    <div class="relative w-full h-80 bg-slate-950 rounded-2xl overflow-hidden border-4 border-toy-buzzSilver shadow-inner shadow-black">
+                        <!-- Direct glowing heavenly ray -->
+                        <div id="chosen-one-beam" class="absolute left-1/2 -translate-x-1/2 bottom-0 w-0 h-full glowing-vector-beam z-0 opacity-0 transition-all duration-700 pointer-events-none"></div>
+
+                        <!-- Gantry track -->
+                        <div class="absolute top-0 left-0 w-full h-2 bg-toy-buzzSilver border-b border-black"></div>
+
+                        <!-- Claw Assemblage -->
+                        <div id="claw-gantry" class="claw-gantry absolute top-0 left-1/2 -translate-x-1/2 w-20 flex flex-col items-center z-20">
+                            <div id="claw-cable" class="claw-cable w-1 bg-gradient-to-b from-toy-buzzSilver to-slate-500 h-10"></div>
+                            
+                            <div class="relative flex justify-center items-center">
+                                <div class="w-8 h-8 rounded-full bg-toy-buzzPurple border-2 border-toy-buzzSilver flex items-center justify-center shadow-md">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-toy-buzzGreen animate-ping"></span>
+                                </div>
+                                <div id="prong-left" class="claw-prong absolute -bottom-5 left-1 w-3 h-7 border-l-2 border-b-2 border-toy-buzzSilver rounded-bl-xl transform rotate-12"></div>
+                                <div id="prong-right" class="claw-prong absolute -bottom-5 right-1 w-3 h-7 border-r-2 border-b-2 border-toy-buzzSilver rounded-br-xl transform -rotate-12"></div>
+                                <div id="prong-middle" class="claw-prong absolute -bottom-6 left-[38px] w-1 h-7 border-r-2 border-b-2 border-toy-buzzSilver rounded-b"></div>
+                            </div>
+                        </div>
+
+                        <!-- Grabbed capsule mesh -->
+                        <div id="grabbed-capsule" class="absolute w-12 h-12 rounded-full bg-gradient-to-tr from-toy-buzzGreen via-teal-400 to-toy-buzzPurple z-30 shadow-2xl hidden items-center justify-center">
+                            <i data-lucide="sparkles" class="w-6 h-6 text-white animate-spin"></i>
+                        </div>
+
+                        <!-- Alien cheering crowds -->
+                        <div class="absolute inset-x-0 bottom-0 h-20 bg-toy-deepNavy/60 border-t border-toy-buzzPurple/20 flex justify-around items-end px-3">
+                            <div class="w-10 h-14 bg-toy-alienGreen border border-emerald-800 rounded-t-3xl relative flex flex-col justify-start pt-2 items-center transform translate-y-2 animate-bounce" style="animation-duration: 2s;">
+                                <div class="w-0.5 h-3 bg-toy-alienGreen absolute -top-2 left-1/2 -translate-x-1/2 rounded-full border border-emerald-800"></div>
+                                <div class="w-2 h-2 bg-yellow-300 rounded-full absolute -top-4 left-1/2 -translate-x-1/2"></div>
+                                <div class="flex gap-[1px]">
+                                    <span class="w-2 h-2 bg-white rounded-full flex items-center justify-center text-[2px] text-black">●</span>
+                                    <span class="w-2 h-2 bg-white rounded-full flex items-center justify-center text-[2px] text-black">●</span>
+                                    <span class="w-2 h-2 bg-white rounded-full flex items-center justify-center text-[2px] text-black">●</span>
+                                </div>
+                            </div>
+                            <div class="w-12 h-16 bg-toy-alienGreen border border-emerald-800 rounded-t-3xl relative flex flex-col justify-start pt-2 items-center glowing-capsule transform translate-y-1 animate-bounce" style="animation-duration: 1.5s;">
+                                <div class="w-0.5 h-3 bg-toy-alienGreen absolute -top-2 left-1/2 -translate-x-1/2 rounded-full border border-emerald-800"></div>
+                                <div class="w-2 h-2 bg-yellow-300 rounded-full absolute -top-4 left-1/2 -translate-x-1/2"></div>
+                                <div class="flex gap-[1px]">
+                                    <span class="w-2 h-2 bg-white rounded-full flex items-center justify-center text-[2px] text-black">●</span>
+                                    <span class="w-2 h-2 bg-white rounded-full flex items-center justify-center text-[2px] text-black">●</span>
+                                    <span class="w-2 h-2 bg-white rounded-full flex items-center justify-center text-[2px] text-black">●</span>
+                                </div>
+                            </div>
+                            <div class="w-10 h-14 bg-toy-alienGreen border border-emerald-800 rounded-t-3xl relative flex flex-col justify-start pt-2 items-center transform translate-y-2 animate-bounce" style="animation-duration: 2.3s;">
+                                <div class="w-0.5 h-3 bg-toy-alienGreen absolute -top-2 left-1/2 -translate-x-1/2 rounded-full border border-emerald-800"></div>
+                                <div class="w-2 h-2 bg-yellow-300 rounded-full absolute -top-4 left-1/2 -translate-x-1/2"></div>
+                                <div class="flex gap-[1px]">
+                                    <span class="w-2 h-2 bg-white rounded-full flex items-center justify-center text-[2px] text-black">●</span>
+                                    <span class="w-2 h-2 bg-white rounded-full flex items-center justify-center text-[2px] text-black">●</span>
+                                    <span class="w-2 h-2 bg-white rounded-full flex items-center justify-center text-[2px] text-black">●</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls Dashboard -->
+                    <div class="bg-toy-deepNavy/90 p-5 rounded-2xl border-2 border-toy-buzzPurple flex justify-between items-center">
+                        <div>
+                            <div class="text-xs font-orbitron text-toy-buzzGreen font-bold">ARCADE: ARMED</div>
+                            <div class="text-[9px] text-toy-buzzSilver/70">HARMONIC DEVIATION: OPTIMIZED</div>
+                        </div>
+                        
+                        <button id="btn-claw-fire" onclick="executeClawSequence()" class="btn-starcommand btn-buzz btn-buzz-green px-8 py-4 rounded-xl text-sm font-black text-black">
+                            🎰 啟動鋼爪
+                        </button>
+                    </div>
+                </section>
+
+                <!-- ================= SCREEN 4: MISSION DOSSIER ================= -->
+                <section id="screen-result" class="hidden w-full space-y-6">
+                    <!-- Splash Info Banner -->
+                    <div class="border-2 border-toy-buzzPurple bg-black/60 p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="space-y-2 text-center md:text-left">
+                            <span class="inline-block px-3 py-1 bg-toy-buzzPurple/30 border border-toy-buzzPurple text-[10px] font-orbitron tracking-widest rounded-full uppercase">
+                                🌌 UNKNOWN SECTOR LOCK OUT
+                            </span>
+                            <h2 id="res-name" class="font-orbitron text-3xl md:text-5xl font-black text-white">--</h2>
+                            <div id="res-slogan" class="text-xs font-orbitron text-toy-buzzGreen tracking-widest">--</div>
+                        </div>
+
+                        <!-- Harmony Display -->
+                        <div class="bg-toy-deepNavy p-4 border-2 border-toy-buzzGreen rounded-2xl text-center min-w-[160px]">
+                            <div class="text-[9px] text-toy-buzzSilver uppercase tracking-wider font-orbitron">COSMIC HARMONY SCORE</div>
+                            <div id="res-harmony" class="text-4xl font-orbitron font-black text-toy-buzzGreen">--</div>
+                        </div>
+                    </div>
+
+                    <!-- Grid Layout content rows -->
+                    <div class="grid md:grid-cols-12 gap-6 items-start">
+                        
+                        <!-- Left Side: Budget and Special tasks -->
+                        <div class="md:col-span-5 space-y-6">
+                            
+                            <!-- Financial Telemetry Card -->
+                            <div class="bg-black/40 border-2 border-toy-buzzSilver/20 p-5 rounded-2xl space-y-4">
+                                <h4 class="font-orbitron font-bold text-xs tracking-wider border-b border-white/10 pb-2">BUDGET RECONCILIATION PANEL</h4>
+                                
+                                <div class="space-y-3.5 text-xs">
+                                    <div class="space-y-1">
+                                        <div class="flex justify-between text-toy-buzzSilver">
+                                            <span>✈️ 星際航線 (雙人機票與地面交通)</span>
+                                            <span id="cost-trans" class="font-orbitron text-white">--</span>
+                                        </div>
+                                        <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
+                                            <div id="bar-trans" class="bg-toy-buzzPurple h-full" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="space-y-1">
+                                        <div class="flex justify-between text-toy-buzzSilver">
+                                            <span>🏡 奢華星艦核心旅宿 (五星海景泳池Villa)</span>
+                                            <span id="cost-lodge" class="font-orbitron text-white">--</span>
+                                        </div>
+                                        <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
+                                            <div id="bar-lodge" class="bg-toy-buzzGreen h-full" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-1">
+                                        <div class="flex justify-between text-toy-buzzSilver">
+                                            <span>🍔 寰宇美食與特產採集 (高級雙人料理)</span>
+                                            <span id="cost-meals" class="font-orbitron text-white">--</span>
+                                        </div>
+                                        <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
+                                            <div id="bar-meals" class="bg-amber-400 h-full" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-1">
+                                        <div class="flex justify-between text-toy-buzzSilver">
+                                            <span>🗺️ 未知探索許可 (雙人私人遊程與入場門票)</span>
+                                            <span id="cost-explore" class="font-orbitron text-white">--</span>
+                                        </div>
+                                        <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
+                                            <div id="bar-explore" class="bg-sky-400 h-full" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-3 border-t border-white/10 flex justify-between items-center">
+                                    <span class="text-[9px] font-orbitron text-toy-buzzSilver">CALCULATED TARGET TOTAL</span>
+                                    <span id="cost-total" class="font-orbitron font-black text-toy-buzzGreen text-lg">--</span>
+                                </div>
+                            </div>
+
+                            <!-- Secret Mission Tasks -->
+                            <div class="bg-black/40 border-2 border-toy-buzzGreen/30 p-5 rounded-2xl space-y-3">
+                                <h4 class="font-orbitron font-bold text-toy-buzzGreen text-xs tracking-wider flex items-center gap-2">
+                                    🕵️‍♂️ MISSION LOG TASKS / 秘密任務日誌
+                                </h4>
+                                <p class="text-xs text-toy-buzzSilver leading-relaxed">
+                                    為了記錄此次重要的蜜月航線坐標，請在降落該星區後秘密解鎖以下任務：
+                                </p>
+                                <div id="res-mission" class="text-xs text-white bg-toy-buzzPurple/20 border border-toy-buzzPurple/40 p-4 rounded-xl leading-relaxed font-semibold">
+                                    --
+                                </div>
+                            </div>
+
+                            <!-- ✨ GEMINI POWERED DYNAMIC ITINERARY OPTIMIZER PANEL -->
+                            <div class="bg-toy-buzzDarkGray/90 border-2 border-toy-buzzGreen p-5 rounded-2xl space-y-4">
+                                <h4 class="font-orbitron font-bold text-toy-buzzGreen text-xs tracking-wider flex items-center gap-2">
+                                    ✨ DYNAMIC FLIGHT OPTIMIZER / AI 航線客製化
+                                </h4>
+                                <p class="text-xs text-toy-buzzSilver/90 leading-relaxed">
+                                    輸入專屬想法（例如：我不吃海鮮 / 想在傍晚加入沙灘騎馬 / 文青風慢活），讓星際總部 AI 重新重塑飛行路徑！
+                                </p>
+                                <div class="space-y-3">
+                                    <textarea id="ai-custom-prompt" class="w-full bg-black/50 border border-toy-buzzPurple/50 rounded-xl p-3 text-xs text-white placeholder-toy-buzzSilver/40 focus:outline-none focus:border-toy-buzzGreen h-20 resize-none" placeholder="輸入特別定制指令..."></textarea>
+                                    
+                                    <div id="ai-loading" class="hidden text-xs text-toy-buzzGreen animate-pulse font-mono flex items-center gap-2">
+                                        <span class="inline-block w-2.5 h-2.5 bg-toy-buzzGreen rounded-full blinking-led"></span>
+                                        <span>正在調配 Gemini 星際模型重算航軌...</span>
+                                    </div>
+                                    <div id="ai-error-banner" class="hidden text-xs text-red-400 bg-red-950/40 p-2.5 rounded-lg border border-red-500/50"></div>
+                                    
+                                    <button onclick="playSFX('launch'); optimizeItineraryWithGemini()" id="btn-ai-optimize" class="btn-starcommand btn-buzz btn-buzz-green w-full py-3 rounded-xl text-xs font-black text-black tracking-widest">
+                                        ✨ 啟動 AI 航線客製化
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Right Side: 8-9 Days Timeline Itinerary sheets -->
+                        <div class="md:col-span-7">
+                            <div class="bg-black/40 border-2 border-toy-buzzSilver/20 p-5 md:p-8 rounded-2xl space-y-6">
+                                <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                                    <h3 class="font-orbitron font-bold text-white text-sm tracking-widest flex items-center gap-2">
+                                        🗺️ FLIGHT PATH TRAJECTORY / 航線軌跡面板
+                                    </h3>
+                                    <span id="res-duration" class="px-3 py-1 bg-toy-buzzGreen/10 border border-toy-buzzGreen/40 rounded-full text-xs text-toy-buzzGreen font-orbitron font-bold">
+                                        --
+                                    </span>
+                                </div>
+
+                                <div id="itinerary-viewport" class="space-y-6 max-h-[450px] overflow-y-auto pr-2">
+                                    <!-- Injected dynamically -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Controllers -->
+                    <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="playSFX('click'); window.print()" class="btn-starcommand btn-buzz btn-buzz-purple px-8 py-3 rounded-xl text-sm font-bold text-white">
+                            列印任務簡報
+                        </button>
+                        <button onclick="playSFX('launch'); relaunchPlanner()" class="btn-starcommand btn-buzz btn-buzz-green px-8 py-3 rounded-xl text-sm font-bold text-black">
+                            重新解鎖盲盒
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-7xl mx-auto px-6 py-6 border-t border-toy-buzzSilver/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-white/40 z-10 relative font-orbitron">
+        <div>
+            &copy; 2026 Star Command Escapes. Inspired by the Toy Space Rangers. All rights reserved.
+        </div>
+        <div class="flex space-x-6">
+            <a href="#" class="hover:text-toy-buzzGreen transition">隱私政策</a>
+            <a href="#" class="hover:text-toy-buzzGreen transition">服務條款</a>
+        </div>
+    </footer>
+
+    <!-- ================= THREE-EYED ALIEN FLOATING WISDOM CONSULTANT ================= -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <!-- Interactive Chat Dialogue Box (UPDATED: Semi-Transparent HUD Theme) -->
+        <div id="alien-bubble" class="hidden border-2 border-toy-buzzGreen text-xs text-white w-72 p-4 rounded-2xl shadow-xl mb-3 relative bg-toy-buzzDarkGray/85 backdrop-blur-md flex flex-col space-y-3">
+            <div class="flex justify-between items-center border-b border-toy-buzzPurple/40 pb-1.5">
+                <span class="font-orbitron text-[9px] text-toy-buzzGreen font-bold tracking-widest">✨ ALIEN AI INTEL</span>
+                <button onclick="closeAlienBubble()" class="text-toy-buzzSilver hover:text-white"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+            </div>
+            
+            <!-- Chat history viewer -->
+            <div id="chat-messages" class="h-40 overflow-y-auto pr-1 space-y-2 chat-scroll text-[11px]">
+                <div class="text-toy-alienGreen font-semibold">三眼仔: "Ooooh! 爪子是我們的主人！你有咩宇宙航行問題想問我呀？"</div>
+            </div>
+
+            <!-- Input interface -->
+            <div class="flex gap-1.5 items-center bg-black/40 border border-toy-buzzPurple/40 p-1.5 rounded-xl">
+                <input type="text" id="alien-chat-input" class="w-full bg-transparent text-white focus:outline-none placeholder-toy-buzzSilver/35 text-[10px]" placeholder="向三眼仔發問... (例如: 推薦華欣看海餐廳)" onkeydown="if(event.key === 'Enter') sendAlienChatMessage()">
+                <button onclick="sendAlienChatMessage()" class="text-toy-buzzGreen hover:text-white p-1"><i data-lucide="send" class="w-3.5 h-3.5"></i></button>
+            </div>
+            
+            <!-- Pointy tail matches translucent cockpit theme -->
+            <div class="absolute bottom-[-10px] right-6 w-4 h-4 bg-[#1C1E24] border-r-2 border-b-2 border-toy-buzzGreen rotate-45"></div>
+        </div>
+
+        <button onclick="playSFX('alien'); toggleAlienSpeechBubble()" class="w-16 h-16 rounded-full bg-toy-alienGreen border-4 border-toy-buzzSilver flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-xl shadow-toy-alienGreen/20 relative group">
+            <svg class="w-10 h-10 text-toy-deepNavy" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C7.58 2 4 5.58 4 10C4 13.5 6.5 16.5 10 17.5V20H8V22H16V20H14V17.5C17.5 16.5 20 13.5 20 10C20 5.58 16.42 2 12 2Z" fill="#a6ff00"/>
+                <circle cx="8" cy="9" r="2.2" fill="white"/>
+                <circle cx="8" cy="9" r="1" fill="black"/>
+                
+                <circle cx="12" cy="7.5" r="2.5" fill="white"/>
+                <circle cx="12" cy="7.5" r="1.1" fill="black"/>
+
+                <circle cx="16" cy="9" r="2.2" fill="white"/>
+                <circle cx="16" cy="9" r="1" fill="black"/>
+                
+                <path d="M9.5 13.5C10 14.5 14 14.5 14.5 13.5" stroke="#5d9e00" stroke-width="1.5" fill="none"/>
+            </svg>
+            <div class="absolute top-[-6px] left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-yellow-300 border border-emerald-800 group-hover:bg-toy-buzzGreen"></div>
+            <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-toy-pizzaRed border border-white text-[9px] font-orbitron font-bold text-white flex items-center justify-center">✨</span>
+        </button>
+    </div>
+
+    <!-- ================= SYSTEM ENGINE ================= -->
+    <script>
+        /* GEMINI API SETTINGS (Empty API key as provided by runtime environment) */
+        const apiKey = "";
+
+        /* Exponential backoff fetch helper with retries (up to 5 times) */
+        async function fetchGeminiWithRetry(url, options, maxRetries = 5) {
+            let delay = 1000; // start with 1s
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                } catch (err) {
+                    if (i === maxRetries - 1) throw err;
+                }
+                // wait with exponential fallback
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2; // exponential step (1s, 2s, 4s, 8s, 16s)
+            }
+            throw new Error("星際數據傳輸失敗，請稍候重試");
+        }
+
+        /* Web Audio API Sound Synthesizer - 100% Client-side synthetic sound generation */
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSFX(type) {
+            try {
+                initAudio();
+                if (!audioCtx) return;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    // Tactile mechanical switch feedback
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(600, now + 0.08);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'launch') {
+                    // Space Ranger telemetry alarm trigger
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.linearRampToValueAtTime(1200, now + 0.3);
+                    osc.frequency.linearRampToValueAtTime(800, now + 0.5);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                } else if (type === 'alien') {
+                    // Cute high pitch space alien sound
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, now);
+                    osc.frequency.exponentialRampToValueAtTime(1760, now + 0.15);
+                    osc.frequency.exponentialRampToValueAtTime(1320, now + 0.3);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'motor') {
+                    // Claw mechanical motor rumble
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(60, now);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 1.2);
+                    osc.start(now);
+                    osc.stop(now + 1.2);
+                }
+            } catch (err) {
+                console.warn("Audio Context blocked or unsupported:", err);
+            }
+        }
+
+        /* 6 EXPANDED LUXURY COUPLING ESCAPES SECTORS */
+        const STAR_COMMAND_SECTORS = [
+            {
+                id: "huahin",
+                name: "泰國：華欣、七岩與皇室海岸秘境星區",
+                slogan: "ROYAL COASTAL SECTOR & THE CHOSEN SACRED BEAM",
+                harmony: "99%",
+                cost: "HKD 21,950",
+                breakdown: { trans: 4500, lodge: 11000, meals: 4200, explore: 2250 },
+                mission: "The Claw’s Choice：在華欣充滿禪意與浪漫手作燈光的 Cicada 文青夜市中，與老公手牽手，並期待他秘密為妳物色一份帶有「微光雕刻」的星際工藝品作為驚喜禮物。",
+                itinerary: [
+                    { day: "Day 1", title: "降落曼谷星港基地 ➔ 豪華專屬太空保姆車對接直達華欣", desc: "香港直飛曼谷。降落後由私人保姆車直接接送直達華欣。入住頂級海濱渡假村（InterContinental Hua Hin），享受私人沙灘日落。" },
+                    { day: "Day 2", title: "七岩拷汪宮歷史力場 ➔ 復古皇室夏日宮殿漫步", desc: "乘搭私人纜車登上拷汪宮（Khao Wang），俯瞰整座山丘城市。白色的宮殿與蒼翠的山林交織出極具泰國皇室古典美學的優雅空間。" },
+                    { day: "Day 3", title: "三百峰國家公園 ➔ 追尋帕亞那空山洞「天選之光」", desc: "深入神秘山洞。中午時分，陽光會從崩塌的山頂洞口垂直傾瀉而下，精準照射在百年皇室涼亭上，親身體驗 100% 還原的「The Chosen One」聖光奇蹟！" },
+                    { day: "Day 4", title: "極致靜謐漂流 ➔ 雙人頂級草本深層修復 SPA", desc: "在渡假村私人花園內享受 3 小時高端香薰精油與泰式草本球熱敷，洗滌心靈一切疲憊，進入完全無重力放鬆狀態。" },
+                    { day: "Day 5", title: "華欣火車站復古軸線 ➔ 蟬鳴文青禪意夜市巡邏", desc: "打卡全泰國最美麗的百年紅木火車站。黃昏時分漫遊 Cicada Market，浸淫在充滿設計感的藝術氛圍、手作好物與精緻街頭小食之中。" },
+                    { day: "Day 6", title: "紅樹林生態廊道划行 ➔ 海濱海鮮星海饗宴", desc: "漫步 Pranburi 森林公園木棧道。夜晚預約正宗海濱海鮮餐廳，在浪潮聲陪伴下享用極致新鮮的大頭蝦與咖哩蟹。" },
+                    { day: "Day 7", title: "水上市場探索 ➔ 頂級奢華泳池 Villa 浪漫放空", desc: "上午造訪傳統水上市場。下午返回房間，在私人泳池一邊暢泳一邊享受精緻的下午茶，享受完美的夫妻私密二人世界。" },
+                    { day: "Day 8", title: "曼谷重返航線 ➔ 航站百貨最後補給 ➔ 順利返港", desc: "由私人專車接返曼谷，在 Terminal 21 進行趣味星際物資採集，隨後前往機場搭乘高檔客機順利返回香港母星。" },
+                    { day: "Day 9", title: "曼谷 river view 深度巡航 ➔ 雙人甜蜜落幕返港", desc: "（9天限定延伸）清晨漫遊昭披耶河畔，於曼谷最新網紅地標市集享用精緻泰式午餐，午後完美起飛重返香港。" }
+                ]
+            },
+            {
+                id: "langkawi",
+                name: "馬來西亞：蘭卡威億年雨林與檳城南洋美學星區",
+                slogan: "RAINFOREST ECLIPSE & HERITAGE FREQUENCY",
+                harmony: "96%",
+                cost: "HKD 21,850",
+                breakdown: { trans: 4800, lodge: 10500, meals: 4200, explore: 2350 },
+                mission: "Buzz's Flight Test：乘搭東南亞最陡峭的天空纜車，挑戰在離地數百米、橫跨峽谷的「天空之橋」上，拍下對比巴斯光年「飛向宇宙，浩瀚無垠」的經典定情合照！",
+                itinerary: [
+                    { day: "Day 1", title: "飛往神話之島 ➔ 蘭卡威奢華五星渡假村登陸", desc: "香港出發經轉機抵達蘭卡威。入住 Ritz-Carlton 或 St. Regis 特色豪華房型，推開陽台直接面對安達曼海的無邊暮色。" },
+                    { day: "Day 2", title: "紅樹林地質探險 ➔ 餵飼傲空栗鳶鷹群", desc: "私人包船穿梭 Kilim 地質公園。親眼觀看數十隻野生老鷹在頭頂盤旋俯衝，並探秘神秘的蝙蝠洞穴地形。" },
+                    { day: "Day 3", title: "東方村主題矩陣 ➔ 挑戰世界級極限天空之橋", desc: "乘搭高空纜車直達山頂。步上懸空吊橋，飽覽無死角海景，完成星際勇氣飛行測試任務。" },
+                    { day: "Day 4", title: "浪漫夕陽帆船巡航 ➔ 星海甲板全包式燒烤盛宴", desc: "登上頂級雙體帆船出海。躺在甲板拖網上享受「海水按摩浴」，一邊欣賞極品日落，一邊享用無限量供應的海鮮 BBQ 與飲品。" },
+                    { day: "Day 5", title: "跨海轉運至檳城 ➔ 百年南洋殖民風精品酒店入住", desc: "搭乘特快渡輪或內陸機前往文化古城檳城。入住東方大酒店（E&O Hotel），體驗優雅的英式殖民時期老派浪漫。" },
+                    { day: "Day 6", title: "喬治市壁畫搜索線 ➔ 娘惹文化美學大宅尋寶", desc: "騎人力車漫遊世界文化遺產區，尋找隱藏在老街角落的立體壁畫。下午參觀奢華的藍屋（張弼士故居），了解古老南洋歷史。" },
+                    { day: "Day 7", title: "升旗山纜車登頂 ➔ 原始熱帶雨林高空漫步", desc: "乘搭百年歷史的復古纜車直上檳城最高點，在 The Habitat 樹冠吊橋上吸吮芬多精，鳥瞰整座檳威海峽。" },
+                    { day: "Day 8", title: "極致美食大採集 ➔ 米芝蓮街頭小食巡禮 ➔ 安全返航", desc: "最後一天展開瘋狂的舌尖冒險：炒粿條、福建蝦麵、煎蕊。午後攜同滿滿的特色手信，前往檳城機場順利搭機返港。" },
+                    { day: "Day 9", title: "檳城峇都丁宜海灘放空 ➔ 浪漫日落咖啡 ➔ 返港", desc: "（9天限定延伸）清晨在峇都丁宜海灘感受海風，午後於海邊網紅咖啡館共進浪漫午餐，隨後出發前往機場起飛返港。" }
+                ]
+            },
+            {
+                id: "elnido",
+                name: "菲律賓：愛妮島與巴拉望極致純淨天堂星區",
+                slogan: "ECO-LUXURY LAGUUN & PRIMAL WATER MATRIX",
+                harmony: "98%",
+                cost: "HKD 22,000",
+                breakdown: { trans: 5500, lodge: 11500, meals: 3000, explore: 2000 },
+                mission: "Green Army Men Deployment：穿戴好潛水裝備潛入愛妮島最著名的大潟湖水晶果凍海中，像星際偵察兵一樣，與老公共同尋找並拍下 3 種不同顏色且在海中發光的神祕熱帶魚類。",
+                itinerary: [
+                    { day: "Day 1", title: "前進菲律賓最後一片淨土 ➔ 抵達巴拉望愛妮島", desc: "搭機抵達馬尼拉後轉乘優雅的 AirSWIFT 直飛愛妮島。入住獨佔整座海島的 El Nido Resorts 奢華野奢渡假村。" },
+                    { day: "Day 2", title: "專屬島嶼航線 A ➔ 大小潟湖石灰岩魔幻獨木舟", desc: "私人包船出海。划透明獨木舟靜靜穿梭於千萬年刀削般的石灰岩巨壁之間，海水清澈得像懸浮在空中一樣。" },
+                    { day: "Day 3", title: "秘密海灘秘境跳島 ➔ 無人荒島奢華雙人沙灘野餐", desc: "探訪需要穿越洞口才能抵達的 Secret Beach。中午船員會直接在白沙灘上為妳跟老公烤製極鮮海鮮大餐。" },
+                    { day: "Day 4", title: "渡假村一島一飯店放空 ➔ 海濱無邊際星空泳池派對", desc: "完全不排行程。在海景躺椅上享受冰椰子，黃昏看著天空從粉紅色轉化為繁星滿天的銀河幕布。" },
+                    { day: "Day 5", title: "航線 B 探索 ➔ 蛇島潮汐沙洲漫步 ➔ 尋覓史前神秘岩洞", desc: "造訪 Snake Island，這是一條隨潮汐若隱若現的絕美S型白色沙灘。漫步其上，左右兩邊都是溫暖的藍綠色海水。" },
+                    { day: "Day 6", title: "叢林滑索過海挑戰 ➔ Las Cabañas 絕美落日夕陽吧", desc: "體驗雙人高空滑索，直接跨越海峽飛向另一座島嶼。傍晚躺在沙灘懶人沙發上，一邊聽著爵士樂一邊欣賞絕品火燒雲。" },
+                    { day: "Day 7", title: "珊瑚花園浮潛特攻 ➔ 伴侶專屬珊瑚礁定情拍攝", desc: "在頂級能見度嘅水域與野生海龜並肩游泳，由專業私人教練為妳們拍攝高清的水底神仙眷侶合照。" },
+                    { day: "Day 8", title: "星港告別儀式 ➔ 奢華帳篷晨光早餐 ➔ 雙人甜蜜返港", desc: "在海浪聲中享用精緻的漂浮早餐。搭乘專艇與小飛機，帶著完全充飽電的雙人甜蜜狀態安全返抵香港。" },
+                    { day: "Day 9", title: "馬尼拉老城西班牙風情深度遊 ➔ 完美返港", desc: "（9天限定延伸）回程於馬尼拉停留，走訪聖地牙哥堡及聖奧古斯丁教堂，享受百年古城的南歐風情。" }
+                ]
+            },
+            {
+                id: "jejubusan",
+                name: "南韓：濟州島火山溫泉與釜山海岸雙城星區",
+                slogan: "COASTAL CAPSULE & VOLCANIC THERMAL OASIS",
+                harmony: "95%",
+                cost: "HKD 21,800",
+                breakdown: { trans: 5000, lodge: 9800, meals: 4500, explore: 2500 },
+                mission: "Space Ranger Recharge：在濟州島涉地可支崖邊、由世界建築大師安藤忠雄設計的懸浮玻璃金字塔餐廳中，讓老公為妳點一杯限定的「柑橘星雲拿鐵」，並幫妳拍下一組極具未來感與文青感的時尚雜誌大片。",
+                itinerary: [
+                    { day: "Day 1", title: "降落釜山海港 ➔ 廣安里海景高端酒店登陸", desc: "直飛釜山。入住正對廣安大橋的五星級高層酒店。夜晚一邊品嚐韓式炸雞啤酒，一邊欣賞窗外絕美的大橋燈光秀。" },
+                    { day: "Day 2", title: "海雲台藍線公園 ➔ 繽紛彩色天空膠囊火車", desc: "搭乘極具童趣的復古彩色微型天空列車，沿著崎嶇的高空海岸線緩緩行進，與老公依偎在窄小的車廂內飽覽浪漫的東海海景。" },
+                    { day: "Day 3", title: "轉戰飛往濟州島 ➔ 頂級五星君悅渡假村入住", desc: "搭乘內陸機抵達濟州島。登陸奢華的 Grand Hyatt Jeju，在全島最高的無邊際恆溫泳池中鳥瞰整座城市天際線。" },
+                    { day: "Day 4", title: "涉地可支美學行腳 ➔ 安藤忠雄玻璃金字塔探秘", desc: "漫步絕美海岸岬角。造訪大師設計的 Glass House，幾何線條將海景與火山岩完美框定，極具現代藝術震撼力。" },
+                    { day: "Day 5", title: "月汀里白色沙灘 ➔ 海邊痛快享用頂級炭火黑豬肉", desc: "在滿是風車與文青咖啡店的沙灘慢活。晚上預訂高檔韓牛與濟州島限定黑豬肉炭火燒肉，享受油脂在舌尖爆開的快感。" },
+                    { day: "Day 6", title: "漢拏山低軌道天然漫步 ➔ 山茶花森林秘密拍照", desc: "進行一段輕鬆無壓力的森林步道散步，吸收火山島特有的神秘植物能量，並在開滿山茶花（或季節限定花卉）的秘境迷宮打卡。" },
+                    { day: "Day 7", title: "崖邊海女隱世海鮮市集 ➔ 東門傳統夜市手作探險", desc: "中午在海邊直接品嚐由高齡海女新鮮現撈的原隻鮑魚與刺身。晚上去夜市看熱情的店員一邊跳舞一邊製作火焰炙燒豬肉捲。" },
+                    { day: "Day 8", title: "星區最後購物巡邏 ➔ 帶齊免稅頂級護膚品 ➔ 安全返航", desc: "在免稅店進行最後的物資掃貨。午後前往濟州國際機場，乘搭客機經首爾或直飛順利返回香港母星。" },
+                    { day: "Day 9", title: "首爾江南區新沙洞林蔭道漫遊 ➔ 頂級伴手禮帶回 ➔ 安全航向", desc: "（9天限定延伸）回港前在首爾新沙洞享用一頓精緻的韓式創意法餐，漫步設計師店，隨後踏上返港航班。" }
+                ]
+            },
+            {
+                id: "danang",
+                name: "越南：峴港美溪海灘與會安黃金古城美學星區",
+                slogan: "MYSTIC LANTERNS & SHINY FIVE-STAR SHORE",
+                harmony: "97%",
+                cost: "HKD 21,750",
+                breakdown: { trans: 3500, lodge: 11000, meals: 4200, explore: 3050 },
+                mission: "Slinky Dog's Trail：夜遊會安黃金古城，在秋盆河漫天手作燈籠的浪漫倒影下，與老公共同乘搭傳統木製鸕鶿船，並親手向河面施放一盞代表妳們誓言的「宇宙許願水燈」。",
+                itinerary: [
+                    { day: "Day 1", title: "直航東方夏威夷 ➔ 峴港頂級五星海濱渡假村", desc: "香港直飛峴港。入住世界最美沙灘之一的美溪海灘旁、擁有私人泳池與管家服務的奢華渡假村（如 InterContinental Danang）。" },
+                    { day: "Day 2", title: "巴拿山黃金佛手托天橋 ➔ 歐洲中世紀古堡嘉年華", desc: "乘搭世界最長單軌纜車直達山頂。步上著名的黃金佛手巨橋，雲霧繚繞間宛如置身天空之城。" },
+                    { day: "Day 3", title: "大理石五行山石窟地底探秘 ➔ 粉紅大教堂打卡", desc: "探尋天然鐘乳石洞穴中的隐秘佛像，感受神聖的自然光影。隨後返回市區拍攝夢幻的法國殖民時期粉紅教堂。" },
+                    { day: "Day 4", title: "移動至會安古城 ➔ 入住黃金奢華古宅精品法式酒店", desc: "包車前往會安古城. 入住充滿法式印度支那優雅風情的精品酒店，午後在鋪滿九重葛的老街上租借單車漫遊。" },
+                    { day: "Day 5", title: "秋盆河傳統鸕鶿船 ➔ 漫天萬盞燈籠嘉年華夜遊", desc: "黃昏時古城完全禁止汽車進入。成千上萬的彩色傳統綢緞燈籠一齊點亮，宛如進入宮崎駿與反斗奇兵夢幻交織的夜市。" },
+                    { day: "Day 6", title: "美山聖地占婆王朝遺址 ➔ 頂級越式熱石熱能 SPA", desc: "清晨探訪有「小吳哥窟」之稱的千年古文明遺址。下午享受極致奢華的 150 分鐘全身熱石推拿與草藥泡澡。" },
+                    { day: "Day 7", title: "迦源島傳統竹子桶船大冒險 ➔ 越式法式融合料理 Fine Dining", desc: "乘搭形似水上旋轉咖啡杯的竹編桶船，在水椰林中看船夫進行瘋狂的高速旋轉表演。晚餐預訂米芝蓮級別的法越融合高檔餐廳。" },
+                    { day: "Day 8", title: "韓市場最後紀念品採集 ➔ 特色滴漏椰子咖啡 ➔ 順利回航", desc: "品嚐最正宗的 Cong Caphe 椰子冰沙咖啡。在當地的法式麵包名店享用午餐後，前往機場起飛安全返回香港。" },
+                    { day: "Day 9", title: "峴港海濱日落漫步 ➔ 享受極上滴漏咖啡 ➔ 安全返航", desc: "（9天限定延伸）清晨與老公在無人沙灘看日出，中午在山頂無敵海景餐廳共進午餐，隨後前往機場載譽而歸。" }
+                ]
+            },
+            {
+                id: "singbintan",
+                name: "新加坡+印尼民丹島：未來科技巨塔與野奢私島雙棲星區",
+                slogan: "AVATAR MATRIX & SEA-SAFARI GLAMPING TENTS",
+                harmony: "94%",
+                cost: "HKD 22,000",
+                breakdown: { trans: 5200, lodge: 10000, meals: 4800, explore: 2000 },
+                mission: "Alien Worship：在印尼民丹島零光污染的滿天繁星之下，躺在妳們私人帳篷外的星空營火旁，與老公共同執行一次長達 10 分鐘「對著銀河系眼定定發呆」的極致放鬆靈魂儀式。",
+                itinerary: [
+                    { day: "Day 1", title: "降落樟宜星港 ➔ 全球最美室內星空瀑含意瀑布", desc: "直飛新加坡。落地直接震撼參觀「星耀樟宜」40米高室內雨林瀑布。入住金沙酒店 or 同級高端市中心酒店。" },
+                    { day: "Day 2", title: "濱海灣花園未來植物巨塔 ➔ 摩天輪天際線高空酒吧", desc: "漫步阿凡達既視感的 Supertree 擎天大樹空中走廊。夜晚預訂高空露天酒吧，一邊品嚐新加坡司令雞尾酒一邊俯瞰全城夜景。" },
+                    { day: "Day 3", title: "豪華特快渡輪跨國轉運 ➔ 印尼民丹島野奢渡假村登陸", desc: "從丹那美拉碼頭搭乘頭等艙渡輪抵達印尼民丹島。入住 Natra Bintan 超豪華全包式海灘生態帳篷 Villa。" },
+                    { day: "Day 4", title: "水晶人工潟湖水上極限 ➔ 私人水晶吧雞尾酒夕陽", desc: "渡假村擁有東南亞最大的超清人工潟湖。可以與老公體驗水上站立槳、水上滑梯，或單純在清澈見底嘅湖畔牽手散步。" },
+                    { day: "Day 5", title: "紅樹林暗夜螢火蟲銀河奇幻追蹤線", desc: "夜晚包船深入零污染的原始紅樹林河流。成千上萬的野生螢火蟲會像聖誕樹一樣在兩旁樹叢同步發光，浪漫到極致。" },
+                    { day: "Day 6", title: "隱世黃金沙丘與藍湖荒野探索 ➔ 絕美無人秘境大片拍攝", desc: "造訪神祕的 Gurun Pasir Busung，由昔日採礦場演變而成的純白與黃金沙丘，中央鋪陳著 Tiffany 藍色神仙湖泊。" },
+                    { day: "Day 7", title: "全套印尼皇家露天海洋精油 Spa ➔ 海鮮排檔海風晚宴", desc: "在海浪拍打聲中享受正宗的巴里島／印尼風慢壓 SPA。晚餐在水上海鮮餐廳（Kelong）享用剛打撈上岸的黑椒螃蟹。" },
+                    { day: "Day 8", title: "重返新加坡 ➔ 烏節路最後物資補給 ➔ 璀璨返港", desc: "搭船返回新加坡。在市區進行最後的手信採購（斑蘭蛋糕、美珍香）。傍邊前往機場搭乘國泰或新航豪華客機浪漫返港。" },
+                    { day: "Day 9", title: "星島聖淘沙空中吊椅 ➔ 漫步西樂索海灘 ➔ 返港", desc: "（9天限定延伸）清晨搭乘聖淘沙空中索道，鳥瞰南部群島，於海灘俱樂部共進浪漫午茶後，起飛重返香港。" }
+                ]
+            }
+        ];
+
+        /* =============================================================
+           5-STAGE INTERACTIVE COCKPIT MENTAL QUIZ DESIGN
+           ============================================================= */
+        const QUIZ_SCHEMA = [
+            {
+                step: 1,
+                id: "resonance",
+                title: "第一關：『身心感受共振』",
+                subtitle: "妳與老公此時此刻，大腦與身體最需要注入哪種能量激活？",
+                options: [
+                    {
+                        val: "A",
+                        name: "太空冬眠深度療癒 (Deep Sleep Mode)",
+                        desc: "近期工作壓力爆錶，靈魂渴望 100% 的徹底放鬆、漫長的深度睡眠、以及海浪聲中的頂級 Spa。",
+                        scoreWeight: { "huahin": 3, "elnido": 2, "danang": 2 }
+                    },
+                    {
+                        val: "B",
+                        name: "安仔文青靈感畫冊 (Aesthetic Awaken)",
+                        desc: "生活需要一些精緻的儀式感。渴望漫步在充滿歷史底蘊、古老燈籠與美學咖啡店的安逸時空之中。",
+                        scoreWeight: { "danang": 3, "langkawi": 2, "huahin": 2 }
+                    },
+                    {
+                        val: "C",
+                        name: "巴斯光年超光速超能 (Hyperdrive Adventure)",
+                        desc: "想要徹底釋放被禁錮的玩心！希望與另一半一起出海冒險、挑戰高空纜車、探索無人荒島！",
+                        scoreWeight: { "elnido": 3, "langkawi": 3, "singbintan": 2, "jejubusan": 2 }
+                    }
+                ]
+            },
+            {
+                step: 2,
+                id: "quadrant",
+                title: "第二關：『環境象限校準』",
+                subtitle: "當妳們的星艦艙門在目的地開啟時，妳們最期待觸發什麼景緻？",
+                options: [
+                    {
+                        val: "A",
+                        name: "皇家蔚藍海景與沙灘 (Ocean Oasis)",
+                        desc: "推開門就是細白沙灘與蔚藍無邊際的海景，入住海濱獨立 Private Pool Villa。",
+                        scoreWeight: { "huahin": 3, "elnido": 3, "danang": 2 }
+                    },
+                    {
+                        val: "B",
+                        name: "原始雨林、神祕山洞與古文化 (Forest & Mystic)",
+                        desc: "被千萬年古樹與自然的芬多精籠罩，探訪壯麗的天然洞穴與極具異國風情的古寺聖地。",
+                        scoreWeight: { "langkawi": 3, "elnido": 2, "huahin": 2 }
+                    },
+                    {
+                        val: "C",
+                        name: "魔幻未來感都市與跨界雙生 (Modern Matrix)",
+                        desc: "震撼心靈的阿凡達科技巨塔、天際線高空酒吧，以及一半現代、一半熱帶私島的奇妙碰撞。",
+                        scoreWeight: { "singbintan": 3, "jejubusan": 2 }
+                    }
+                ]
+            },
+            {
+                step: 3,
+                id: "provisions",
+                title: "第三關：『能量補給頻率』",
+                subtitle: "妳們最崇尚用哪種星系美食方式來維繫雙人飛行能量？",
+                options: [
+                    {
+                        val: "A",
+                        name: "奢華高檔寰宇盛宴 (Fine Dining & Resort)",
+                        desc: "預訂精緻的法越融合料理、米芝蓮指南推薦、渡假村私人海鮮海風炭烤饗宴。",
+                        scoreWeight: { "huahin": 3, "elnido": 2, "singbintan": 3, "danang": 2 }
+                    },
+                    {
+                        val: "B",
+                        name: "地道星系夜市與街頭煙火 (Street Food Hunter)",
+                        desc: "手拉手鑽入熙熙攘攘的文青夜市，發掘隱密在街角的庶民地道小店與手作工藝市集。",
+                        scoreWeight: { "huahin": 3, "danang": 3, "langkawi": 2, "jejubusan": 2 }
+                    },
+                    {
+                        val: "C",
+                        name: "文青美學星雲咖啡屋 (Aesthetic Coffee Drift)",
+                        desc: "造訪極具建築設計美學的網紅咖啡館，悠閒歎精品冷萃咖啡，拍下一張張極具雜誌風的大片。",
+                        scoreWeight: { "jejubusan": 3, "langkawi": 2, "huahin": 2 }
+                    }
+                ]
+            },
+            {
+                step: 4,
+                id: "pacing",
+                title: "第四關：『航行推進步調』",
+                subtitle: "妳們偏好怎樣的宇宙探索頻率與前行節奏？",
+                options: [
+                    {
+                        val: "A",
+                        name: "超光速特攻 (Active Dynamic)",
+                        desc: "行程充實！想在 8-9 天內探索豐富的景點與活動，將預算的性價比發揮到極致！",
+                        scoreWeight: { "langkawi": 2, "elnido": 2, "singbintan": 2, "jejubusan": 2 }
+                    },
+                    {
+                        val: "B",
+                        name: "低軌道極簡放空 (Slow Orbit)",
+                        desc: "節奏極慢。睡到自然醒，每天最多安排一個主活動，剩下時間都留白，與老公浪漫談心。",
+                        scoreWeight: { "huahin": 3, "danang": 3, "elnido": 2 }
+                    }
+                ]
+            },
+            {
+                step: 5,
+                id: "warp",
+                title: "第五關：『時空跨度校準』",
+                subtitle: "這一次，妳們打算暫時脫離地球日常工作重力軌道多久？",
+                options: [
+                    {
+                        val: "A",
+                        name: "8 日地球時間能量釋放 (8 Days Route)",
+                        desc: "精悍而完美的奢華航行長度，無縫吻合 HKD 22,000 預算配比。"
+                    },
+                    {
+                        val: "B",
+                        name: "9 日地球時間深度駐紮 (9 Days Route)",
+                        desc: "極致拉長二人世界浪漫蜜月感，更悠閒地發掘星區更深處的隱藏角落。"
+                    }
+                ]
+            }
+        ];
+
+        /* =============================================================
+           SPA STATE ENGINE
+           ============================================================= */
+        let currentStepIdx = 0;
+        let selectedAnswers = {};
+        let targetSector = null;
+
+        // Initialize App on DOM Ready
+        window.onload = function() {
+            lucide.createIcons();
+            renderStepProgress();
+            renderQuestion();
+        };
+
+        // Screen swapper helper - Fixed to robustly handle both "welcome" and "screen-welcome" types
+        function navigateTo(screenId) {
+            const targetId = screenId.startsWith('screen-') ? screenId : 'screen-' + screenId;
+
+            const welcomePanel = document.getElementById('screen-welcome');
+            const quizPanel = document.getElementById('screen-quiz');
+            const arcadePanel = document.getElementById('screen-arcade');
+            const resultPanel = document.getElementById('screen-result');
+
+            if (welcomePanel) welcomePanel.classList.add('hidden');
+            if (quizPanel) quizPanel.classList.add('hidden');
+            if (arcadePanel) arcadePanel.classList.add('hidden');
+            if (resultPanel) resultPanel.classList.add('hidden');
+
+            const activePanel = document.getElementById(targetId);
+            if (activePanel) {
+                activePanel.classList.remove('hidden');
+            } else {
+                console.error("Critical: Star Command panel not found for ID: " + targetId);
+            }
+            window.scrollTo(0,0);
+        }
+
+        /* Quiz step renderer */
+        function renderStepProgress() {
+            const container = document.getElementById('progress-indicators');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            QUIZ_SCHEMA.forEach((q, idx) => {
+                const isActive = idx <= currentStepIdx;
+                const isCurrent = idx === currentStepIdx;
+                
+                const dot = document.createElement('div');
+                dot.className = `w-4 h-4 rounded-full transition-all duration-300 ${
+                    isCurrent ? 'bg-toy-buzzGreen shadow-[0_0_12px_#39FF14] scale-125' : 
+                    isActive ? 'bg-toy-buzzPurple shadow-[0_0_8px_#6E3C8B]' : 'bg-slate-700'
+                }`;
+                container.appendChild(dot);
+            });
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('quiz-question-container');
+            const data = QUIZ_SCHEMA[currentStepIdx];
+            
+            let optionsHtml = '';
+            data.options.forEach(opt => {
+                const isSelected = selectedAnswers[data.id] === opt.val;
+                
+                let optionBtnColor = "border-toy-buzzPurple hover:bg-toy-buzzPurple/10";
+                let badgeColor = "bg-toy-buzzPurple text-white";
+                if (opt.val === 'A') {
+                    optionBtnColor = "border-[#ff4444] hover:bg-[#ff4444]/15";
+                    badgeColor = isSelected ? "bg-[#ff4444] text-white" : "text-[#ff4444] border-[#ff4444]";
+                } else if (opt.val === 'B') {
+                    optionBtnColor = "border-[#00E5FF] hover:bg-[#00E5FF]/15";
+                    badgeColor = isSelected ? "bg-[#00E5FF] text-black" : "text-[#00E5FF] border-[#00E5FF]";
+                } else {
+                    optionBtnColor = "border-[#39FF14] hover:bg-[#39FF14]/15";
+                    badgeColor = isSelected ? "bg-[#39FF14] text-black animate-pulse" : "text-[#39FF14] border-[#39FF14]";
+                }
+
+                optionsHtml += `
+                    <div onclick="playSFX('click'); selectOption('${data.id}', '${opt.val}')" 
+                         class="option-wrapper p-4 md:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 flex items-start gap-4 ${optionBtnColor} ${
+                             isSelected ? 
+                             'bg-white/10 shadow-[0_0_20px_rgba(255,255,255,0.15)] border-white font-bold' : 
+                             'bg-black/50 border-opacity-40'
+                         }">
+                        <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center font-orbitron font-bold text-sm ${badgeColor}">
+                            ${opt.val}
+                        </div>
+                        <div class="space-y-1">
+                            <h4 class="text-sm md:text-base text-white">${opt.name}</h4>
+                            <p class="text-xs text-toy-buzzSilver/70 font-light leading-relaxed">${opt.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <span class="text-xs font-orbitron text-toy-buzzGreen font-bold tracking-widest uppercase">${data.title}</span>
+                    <h3 class="text-lg md:text-2xl font-orbitron font-bold text-white italic">"${data.subtitle}"</h3>
+                </div>
+                <div class="grid gap-4 mt-6">
+                    ${optionsHtml}
+                </div>
+            `;
+
+            document.getElementById('quiz-btn-prev').style.opacity = currentStepIdx === 0 ? '0.4' : '1';
+            document.getElementById('quiz-btn-next').disabled = !selectedAnswers[data.id];
+        }
+
+        function selectOption(id, val) {
+            selectedAnswers[id] = val;
+            renderQuestion();
+        }
+
+        function handleQuizPrev() {
+            if (currentStepIdx > 0) {
+                currentStepIdx--;
+                renderStepProgress();
+                renderQuestion();
+            } else {
+                navigateTo('screen-welcome');
+            }
+        }
+
+        function handleQuizNext() {
+            if (currentStepIdx < QUIZ_SCHEMA.length - 1) {
+                currentStepIdx++;
+                renderStepProgress();
+                renderQuestion();
+            } else {
+                targetSector = resolveAlgorithmicSector();
+                navigateTo('screen-arcade');
+            }
+        }
+
+        /* Scoring algorithm matching logic to align choices dynamically */
+        function resolveAlgorithmicSector() {
+            let scores = {
+                "huahin": 0,
+                "langkawi": 0,
+                "elnido": 0,
+                "jejubusan": 0,
+                "danang": 0,
+                "singbintan": 0
+            };
+
+            QUIZ_SCHEMA.forEach(q => {
+                const chosenVal = selectedAnswers[q.id];
+                if (chosenVal) {
+                    const opt = q.options.find(o => o.val === chosenVal);
+                    if (opt && opt.scoreWeight) {
+                        for (let sectorId in opt.scoreWeight) {
+                            scores[sectorId] += opt.scoreWeight[sectorId];
+                        }
+                    }
+                }
+            });
+
+            let highestId = "huahin";
+            let highestScore = -1;
+            for (let id in scores) {
+                if (scores[id] > highestScore) {
+                    highestScore = scores[id];
+                    highestId = id;
+                }
+            }
+
+            return STAR_COMMAND_SECTORS.find(s => s.id === highestId);
+        }
+
+        /* =============================================================
+           CLAW MACHINE PHYSICS ANIMATION TIMINGS
+           ============================================================= */
+        function executeClawSequence() {
+            playSFX('motor');
+            const btn = document.getElementById('btn-claw-fire');
+            btn.disabled = true;
+            btn.innerText = "ALIGNING QUANTUM TRANSIT...";
+
+            const gantry = document.getElementById('claw-gantry');
+            const cable = document.getElementById('claw-cable');
+            const prongL = document.getElementById('prong-left');
+            const prongR = document.getElementById('prong-right');
+            const beam = document.getElementById('chosen-one-beam');
+            const capsule = document.getElementById('grabbed-capsule');
+
+            gantry.style.left = "65%";
+
+            setTimeout(() => {
+                cable.style.height = "160px";
+
+                setTimeout(() => {
+                    prongL.style.transform = "rotate(40deg) translateY(-2px)";
+                    prongR.style.transform = "rotate(-40deg) translateY(-2px)";
+                    
+                    capsule.style.left = "65%";
+                    capsule.style.bottom = "80px";
+                    capsule.style.display = "flex";
+
+                    setTimeout(() => {
+                        cable.style.height = "40px";
+                        capsule.style.bottom = "200px";
+
+                        setTimeout(() => {
+                            gantry.style.left = "12%";
+                            capsule.style.left = "12%";
+
+                            setTimeout(() => {
+                                prongL.style.transform = "rotate(12deg)";
+                                prongR.style.transform = "rotate(-12deg)";
+                                capsule.style.bottom = "40px";
+                                capsule.style.opacity = "0";
+
+                                setTimeout(() => {
+                                    beam.style.opacity = "1";
+                                    beam.style.width = "120px";
+                                    showFloatingAlienSpeech("Ooooh! The Claw has chosen! An incredible adventure awaits you and your partner!");
+
+                                    setTimeout(() => {
+                                        renderResultDossier();
+                                        navigateTo('screen-result');
+                                        
+                                        btn.disabled = false;
+                                        btn.innerHTML = "🎰 啟動鋼爪";
+                                        gantry.style.left = "50%";
+                                        cable.style.height = "40px";
+                                        prongL.style.transform = "rotate(12deg)";
+                                        prongR.style.transform = "rotate(-12deg)";
+                                        capsule.style.display = "none";
+                                        capsule.style.opacity = "1";
+                                        beam.style.opacity = "0";
+                                        beam.style.width = "0px";
+                                    }, 2500);
+
+                                }, 500);
+
+                            }, 1200);
+
+                        }, 1200);
+
+                    }, 800);
+
+                }, 1800);
+
+            }, 1200);
+        }
+
+        /* =============================================================
+           RENDER DOSSIER METHOD
+           ============================================================= */
+        function renderResultDossier() {
+            if (!targetSector) return;
+            
+            const isNineDays = selectedAnswers['warp'] === 'B';
+            const durationDays = isNineDays ? 9 : 8;
+
+            document.getElementById('res-name').innerText = targetSector.name;
+            document.getElementById('res-slogan').innerText = targetSector.slogan;
+            document.getElementById('res-harmony').innerText = targetSector.harmony;
+            document.getElementById('res-duration').innerText = `${durationDays} EARTH DAYS`;
+            document.getElementById('res-mission').innerText = targetSector.mission;
+
+            document.getElementById('cost-trans').innerText = `HKD ${targetSector.breakdown.trans.toLocaleString()}`;
+            document.getElementById('cost-lodge').innerText = `HKD ${targetSector.breakdown.lodge.toLocaleString()}`;
+            document.getElementById('cost-meals').innerText = `HKD ${targetSector.breakdown.meals.toLocaleString()}`;
+            document.getElementById('cost-explore').innerText = `HKD ${targetSector.breakdown.explore.toLocaleString()}`;
+            document.getElementById('cost-total').innerText = targetSector.cost;
+
+            const totalCostNumber = targetSector.breakdown.trans + targetSector.breakdown.lodge + targetSector.breakdown.meals + targetSector.breakdown.explore;
+            document.getElementById('bar-trans').style.width = `${(targetSector.breakdown.trans / totalCostNumber) * 100}%`;
+            document.getElementById('bar-lodge').style.width = `${(targetSector.breakdown.lodge / totalCostNumber) * 100}%`;
+            document.getElementById('bar-meals').style.width = `${(targetSector.breakdown.meals / totalCostNumber) * 100}%`;
+            document.getElementById('bar-explore').style.width = `${(targetSector.breakdown.explore / totalCostNumber) * 100}%`;
+
+            renderItineraryList(targetSector.itinerary.slice(0, durationDays));
+
+            // Reset AI Customizer input and errors
+            document.getElementById('ai-custom-prompt').value = "";
+            document.getElementById('ai-error-banner').classList.add('hidden');
+            document.getElementById('ai-loading').classList.add('hidden');
+
+            lucide.createIcons();
+        }
+
+        function renderItineraryList(steps) {
+            const timelineContainer = document.getElementById('itinerary-viewport');
+            timelineContainer.innerHTML = '';
+
+            steps.forEach((step, idx) => {
+                const dayNode = document.createElement('div');
+                dayNode.className = 'relative pl-8 space-y-1 border-l-2 border-toy-buzzPurple/40 pb-6 last:border-l-0 last:pb-0 group';
+                dayNode.innerHTML = `
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-toy-deepNavy border-2 border-toy-buzzPurple group-hover:border-toy-buzzGreen transition z-10 flex items-center justify-center">
+                        <span class="w-1.5 h-1.5 rounded-full bg-toy-buzzGreen scale-0 group-hover:scale-100 transition duration-300"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-orbitron tracking-widest text-toy-buzzGreen font-bold uppercase">MISSION ROUTE ${step.day}</span>
+                        <h4 class="text-sm md:text-base font-bold text-white group-hover:text-toy-buzzGreen transition duration-200 mt-1">${step.title}</h4>
+                        <p class="text-xs md:text-sm text-toy-buzzSilver/80 font-light leading-relaxed mt-2">${step.desc}</p>
+                    </div>
+                `;
+                timelineContainer.appendChild(dayNode);
+            });
+        }
+
+        function relaunchPlanner() {
+            currentStepIdx = 0;
+            selectedAnswers = {};
+            targetSector = null;
+            navigateTo('screen-welcome');
+            renderStepProgress();
+            renderQuestion();
+        }
+
+        /* =============================================================
+           ✨ GEMINI API ITINERARY OPTIMIZATION
+           ============================================================= */
+        async function optimizeItineraryWithGemini() {
+            const userPrompt = document.getElementById('ai-custom-prompt').value.trim();
+            if (!userPrompt) {
+                showAIError("請輸入你的客製化特殊指令，例如：『太太不吃海鮮 / 想要更悠閒一點的節奏』。");
+                return;
+            }
+
+            const loadingEl = document.getElementById('ai-loading');
+            const errorEl = document.getElementById('ai-error-banner');
+            const btn = document.getElementById('btn-ai-optimize');
+
+            loadingEl.classList.remove('hidden');
+            errorEl.classList.add('hidden');
+            btn.disabled = true;
+
+            const isNineDays = selectedAnswers['warp'] === 'B';
+            const durationDays = isNineDays ? 9 : 8;
+            const originalItineraryStr = JSON.stringify(targetSector.itinerary.slice(0, durationDays));
+
+            // Structured query generation
+            const systemPrompt = "你是一位星際旅行顧問。你必須根據旅客的要求客製化或優化一份現有的星際蜜月行程表。" +
+                                 "你必須返回一個符合 JSON 格式的陣列（Array），不可以包含任何 ```json 或額外解釋文字，否則傳輸會失敗。" +
+                                 "格式必須為： [ {\"day\": \"Day 1\", \"title\": \"...\", \"desc\": \"...\"}, ... ]" +
+                                 "只使用繁體中文。請確保融入客製化要求時，依然保持浪漫有趣的 Toy Story 星際探險風格，且不要超出原本的天數與 HKD 22,000 預算。";
+
+            const userQuery = `目的地是「${targetSector.name}」，旅行天數是 ${durationDays} 天。
+原行程：${originalItineraryStr}。
+旅客提出的特別客製化要求：『${userPrompt}』。
+請幫我重寫這份每日行程！`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{
+                    parts: [{ text: userQuery }]
+                }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                day: { type: "STRING" },
+                                title: { type: "STRING" },
+                                desc: { type: "STRING" }
+                            },
+                            required: ["day", "title", "desc"]
+                        }
+                    }
+                }
+            };
+
+            try {
+                const responseData = await fetchGeminiWithRetry(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    }
+                );
+
+                const generatedText = responseData.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (!generatedText) {
+                    throw new Error("星際總部傳回了空的數據。");
+                }
+
+                const optimizedSteps = JSON.parse(generatedText);
+                if (Array.isArray(optimizedSteps) && optimizedSteps.length > 0) {
+                    renderItineraryList(optimizedSteps);
+                    showFloatingAlienSpeech("Ooooh! AI 星際客製航線優化成功！快看看右邊的新路徑！");
+                } else {
+                    throw new Error("回傳的星軌格式不正確。");
+                }
+            } catch (err) {
+                console.error(err);
+                showAIError("星際網絡受太陽磁暴影響中斷，請確認特別客製要求並再試一次。");
+            } finally {
+                loadingEl.classList.add('hidden');
+                btn.disabled = false;
+            }
+        }
+
+        function showAIError(msg) {
+            const errorEl = document.getElementById('ai-error-banner');
+            errorEl.innerText = msg;
+            errorEl.classList.remove('hidden');
+        }
+
+        /* =============================================================
+           ✨ GEMINI API ALIEN CHAT DIALOGUE SYSTEM
+           ============================================================= */
+        async function sendAlienChatMessage() {
+            const inputEl = document.getElementById('alien-chat-input');
+            const messageText = inputEl.value.trim();
+            if (!messageText) return;
+
+            playSFX('click');
+            appendChatMessage("你", messageText, "text-toy-buzzSilver");
+            inputEl.value = "";
+
+            const chatHistory = getChatHistoryString();
+            const sectorNameContext = targetSector ? targetSector.name : "尚未解鎖神秘星區";
+
+            const systemPrompt = `你是一個在 Pizza Planet 夾公仔機裡面的三眼仔玩具（Three-Eyed Alien / Little Green Man）。
+你說話極具《反斗奇兵》（Toy Story）世界觀，非常崇拜「神祕鋼爪」（The Claw）以及「巴斯光年」（Buzz Lightyear）。
+請使用繁體中文（廣東話風格更佳，多使用「呀」、「喇」、「喔」、「Ooooh!」、「噢！」）。
+你正在與一對情侶對話。當前他們解鎖或關注的旅行星區是：${sectorNameContext}。
+你需要以非常調皮、天真、熱情但浪漫的方式回答情侶關於旅遊諮詢的問題。回答要精簡、幽默，不超過 80 字。`;
+
+            appendChatMessage("三眼仔", "正在連線母星思考中... Ooooh!", "text-toy-buzzGreen animate-pulse", "temp-loading");
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: chatHistory + `\n旅客發問: ${messageText}` }]
+                }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+
+            try {
+                const responseData = await fetchGeminiWithRetry(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    }
+                );
+
+                removeTempLoadingMessage();
+
+                const responseText = responseData.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (responseText) {
+                    appendChatMessage("三眼仔", responseText, "text-toy-alienGreen font-semibold");
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                removeTempLoadingMessage();
+                appendChatMessage("三眼仔", "噢！星際通訊中斷，神祕鋼爪說待會再試！", "text-red-400 font-semibold");
+            }
+        }
+
+        function appendChatMessage(sender, text, colorClass, tempId = "") {
+            const container = document.getElementById('chat-messages');
+            const messageEl = document.createElement('div');
+            messageEl.className = colorClass;
+            if (tempId) messageEl.id = tempId;
+            messageEl.innerHTML = `<strong>${sender}:</strong> "${text}"`;
+            container.appendChild(messageEl);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function removeTempLoadingMessage() {
+            const el = document.getElementById('temp-loading');
+            if (el) el.remove();
+        }
+
+        function getChatHistoryString() {
+            const msgs = document.getElementById('chat-messages').children;
+            let history = "";
+            for (let i = 0; i < Math.min(msgs.length, 6); i++) {
+                history += msgs[i].innerText + "\n";
+            }
+            return history;
+        }
+
+        /* =============================================================
+           ALIEN CONSULTANT STATIC BUBBLE CONTROLLERS (Fallback/AI)
+           ============================================================= */
+        const ALIEN_WISDOMS = [
+            "Ooooh! 爪子……是我們的主人！它看中你同太太當下的頻率喇！",
+            "哇！！喺三百峰國家公園山洞入面道天選之光……同我的聖光一模一樣！",
+            "巴斯光年說：每對 Couple HKD 22,000 的燃料經已精密計算，足夠飛向宇宙！",
+            "印尼民丹島嘅滿天繁星……Ooooh! So shiny! 簡真好似我哋故鄉！",
+            "唔去熱門人潮區！星際指令只會指引最懂慢活和探險的太空情侶！",
+            "記得出發之後，與另一半一起打開秘密任務日誌啊！"
+        ];
+
+        function toggleAlienSpeechBubble() {
+            const bubble = document.getElementById('alien-bubble');
+            if (bubble.classList.contains('hidden')) {
+                bubble.classList.remove('hidden');
+            } else {
+                bubble.classList.add('hidden');
+            }
+        }
+
+        function closeAlienBubble() {
+            document.getElementById('alien-bubble').classList.add('hidden');
+        }
+
+        function showFloatingAlienSpeech(msg) {
+            const bubble = document.getElementById('alien-bubble');
+            bubble.classList.remove('hidden');
+            // Inject directly into chat history
+            appendChatMessage("三眼仔", msg, "text-toy-alienGreen font-semibold");
+        }
+
+        function triggerAlienWisdom() {
+            showFloatingAlienSpeech("Ooooh! 快啲進入控制艙調校導航，或者喺度同我對話啦！");
+        }
+    </script>
+</body>
+</html>
+
+```
